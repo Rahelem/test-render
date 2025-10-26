@@ -1,14 +1,18 @@
 import express from 'express';
-import animeRouter from './router.js';
+import animeRouter from './router/animes/router.js';
 
 
 const app = express();
 
 app.use(express.json());
 
- app.get('/', (req, res) => {
-    res.send('Hello');
- });
+app.get('/', (req, res) => {
+  res.send('Welcome to the Anime API 🎌');
+});
 
-export default app; 
+
+app.use('/api/animes', animeRouter);
+
+export default app;
+
 

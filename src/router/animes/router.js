@@ -1,19 +1,13 @@
 import express from 'express';
+import animes from './animes.js';
+
 
 const router = express.Router();
 
-const animes = [
-    { id: 1, title: 'Fable', genre: 'Comedy'},
-    { id: 2, title: 'Trillion Game', genre: 'Adventure'},
-    { id: 3, title: 'Spy x Family', genre: 'Family-adventure'},
-    { id: 4, title: 'Blue Lock', genre: 'Sports'},
-    { id: 5, title: 'Chainsaw Man', genre: 'Drama'},
-    { id: 6, title: 'Jujuts Kaisen', genre: 'Supernatural'},
-    { id: 7, title: 'One Piece', genre: 'Adventure'},
-    { id: 8, title: 'Dandadan', genre: 'Supernatural'},
+
 
 router.get('/', (req, res) => {
-    res.json(animes);
+    res.status(200).json(animes);
 });
 
 router.get('/:id', (req, res) => {
@@ -51,7 +45,19 @@ router.patch('/:id', (req, res) => {
   if (genre) anime.genre = genre;
 
   res.status(200).json(anime);
-})
+});
+
+router.delete('/:id', (req, res) => {
+  const id = parseInt(req.params.id);
+  const index = animes.findIndex(a => a.id === id);
+
+  if (index === -1) {
+    return res.status(404).json({ error: 'Anime not found' });
+  }
+
+  const deleted = animes.splice(index, 1);
+  res.status(200).json({ deleted });
+});
 
 
 export default router;
